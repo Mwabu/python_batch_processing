@@ -5,14 +5,15 @@ class RecursiveSearch:
         """
         Constructs a new RecursiveSearch object which uses the given predicate
 
-        predicate:- a boolean lambda or function which determines whether a file name matches a pattern
+        predicate:- a boolean lambda or function which determines whether a
+                    file name matches a pattern
         """
         self.predicate = predicate
-    
+
     def search(self, start_location):
         """
-        Performs a recursive search from **start_location**, calling predicate for each filename to determine 
-        if it matches the search pattern
+        Performs a recursive search from **start_location**, calling predicate for
+        each filename to determine if it matches the search pattern
 
         start_location:- the top path to start searching from
         returns:- a list of paths relative to the top path that satisfy the search predicate
@@ -36,4 +37,16 @@ class RecursiveSearch:
                 matches.append(subfile)
         return matches
 
+    def search_many(self, start_locations):
+        """
+        Perform a recursive search on each of several locations. Convenient
+        when using a multi-valued argument from the command line
 
+        start_locations:- an array of paths to search
+        returns:- a list of matches
+        """
+        result = []
+        for path in start_locations:
+            matches = self.search(path)
+            result = result + matches
+        return result
